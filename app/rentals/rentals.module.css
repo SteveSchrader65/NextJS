@@ -1,0 +1,29 @@
+.rentalCard {
+  width: 80%;
+  border: 2px solid #000000;
+  padding: 1%;
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.rentalImage {
+  width: 60%;
+  height: auto;
+  border: 1px solid red;
+  margin-right: 20px;
+}
+
+.rentalInfo {
+  flex: 1;
+}
+
+.rentalInfo p:first-of-type {
+  font-weight: bold;
+  font-size: 1.4rem;
+}
+
+.rentalInfo p:nth-of-type(4) {
+  text-align: justify;
+  text-justify: inter-word;
+}
+

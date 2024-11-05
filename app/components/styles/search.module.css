@@ -1,0 +1,29 @@
+.searchContainer {
+  height: 40px;
+  width: 40px;
+  transition: width 0.5s ease-in-out;
+}
+
+.searchContainer.expanded {
+  width: 200px;
+}
+
+.searchButton {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  padding-right: 11px;
+  transition: all 0.25s ease-in-out;
+  overflow: hidden;
+}
+
+.searchInput {
+  width: calc(100% - 30px);
+  height: 80%;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.searchInput.expanded {
+  opacity: 1;
+}
