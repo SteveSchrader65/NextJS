@@ -14,12 +14,18 @@ export default function Rentals() {
 
   // Create loading and error pages using these ...
   if (propertiesLoading) {
-    return <div className="container mt-5">Loading properties from database ...</div>
+    return (
+      <div className="container m-5">
+        <div className="alert alert-primary">
+          <p>Loading properties from database ...</p>
+        </div>
+      </div>
+    )
   }
 
   if (propertiesError) {
     return (
-      <div className="container mt-5">
+      <div className="container m-5">
         <div className="alert alert-danger">
           {propertiesError && <p>Properties Error: {propertiesError.message}</p>}
         </div>
@@ -43,23 +49,25 @@ export default function Rentals() {
           .filter((property) => property.img.toLowerCase().startsWith(cityPrefix))
           .map((property, index) => (
             <div className="container-fluid w-80 border border-dark p-3 d-flex mb-4" key={index}>
-              <div className="card">
-                <Image
-                  src={`/images/${property.img}.jpg`}
-                  alt={property.locality}
-                  width={400}
-                  height={300}
-                  className="card-img-left"
-                />
-                <div className="card-body">
-                  <h5 className="card-title">{property.locality}</h5>
-                  <p className="card-text">Price: {property.price}</p>
-                  <p className="card-text">
-                    Beds-{property.beds}&emsp;Baths-{property.baths}&emsp;Garages-
-                    {property.garages}
-                  </p>
-                  <p className="card-text">{property.desc}</p>
-                </div>
+              <Image
+                src={`/images/${property.img}.jpg`}
+                alt={property.locality}
+                width={2100}
+                height={100}
+                className="border border-danger me-3"
+                style={{height: "auto"}}
+              />
+              <div>
+                <h5 className="fw-bold fs-4">{property.locality}</h5>
+                <p className="fw-bold fs-5">Price: {property.price}</p>
+                <p className="fs-6">
+                  <strong>Beds</strong>&ensp;-&ensp;{property.beds}&emsp;<strong>Baths</strong>
+                  &ensp;-&ensp;{property.baths}&emsp;<strong>Garages</strong>&ensp;-&ensp;
+                  {property.garages}
+                </p>
+                <p className="fs-6" style={{textAlign: "justify"}}>
+                  {property.desc}
+                </p>
               </div>
             </div>
           ))}
