@@ -6,6 +6,7 @@ const StatesContext = createContext()
 
 const _initialStates = {
   city: "Perth",
+  cityPrefix: "d",
   language: "English",
   homeAnimated: false,
   rentalsAnimated: false,

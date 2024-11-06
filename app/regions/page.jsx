@@ -31,8 +31,9 @@ export default function Regions() {
     return <div className="container mt-5">No city data available</div>
   }
 
-  const handleCityClick = (cityName) => {
-    updateStates("city", cityName)
+  const handleCityClick = (city) => {
+    updateStates("city", city.name)
+    updateStates("cityPrefix", city.prefix)
     updateStates("rentalsAnimated", true)
     triggerScroll()
   }
@@ -71,7 +72,7 @@ export default function Regions() {
                   y={city.y}
                   width={city.width}
                   height={city.height}
-                  onClick={() => handleCityClick(city.name)}>
+                  onClick={() => handleCityClick(city)}>
                   {city.name}
                   <div
                     className={`${styles.cityInfoPanel} position-absolute d-none text-black`}
