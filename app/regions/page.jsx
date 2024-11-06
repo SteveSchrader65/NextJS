@@ -1,181 +1,71 @@
 "use client"
 
 import {useFirebaseData} from "../hooks/useFirebase"
-import {useStates} from "../hooks/useStates"
 import useScrollPacer from "../hooks/useScrollPacer"
+import {useStates} from "../hooks/useStates"
 import Image from "next/image"
+import styles from "./regions.module.css"
 
 export default function Regions() {
-  const [states, setStates] = useStates()
+  const {states, updateStates} = useStates()
   const {data: cities, loading: citiesLoading, error: citiesError} = useFirebaseData("cityData")
   const triggerScroll = useScrollPacer(1000)
 
+  // Create loading and error pages using these ...
   if (citiesLoading) {
     return <div className="container mt-5">Loading cities from database ...</div>
   }
 
   if (citiesError) {
+    const errorMessage = citiesError?.message || "Database error occurred"
     return (
       <div className="container mt-5">
         <div className="alert alert-danger">
-          {citiesError && <p>Cities Error: {citiesError.message}</p>}
+          <p>Cities Error: {errorMessage}</p>
         </div>
       </div>
     )
   }
 
+  if (!cities) {
+    return <div className="container mt-5">No city data available</div>
+  }
+
   const handleCityClick = (cityName) => {
-    setStates("city", cityName)
-    setIsRentalsAnimationApplied(true)
+    updateStates("city", cityName)
+    updateStates("rentalsAnimated", true)
     triggerScroll()
   }
 
   return (
     <>
-      <h2 className="bg-dark text-light d-inline-block w-100 fw-bold py-2 ps-5 fs-10">
-        Regions Page - Selected City: <span style={{color: "#ffff00"}}>{states.city}</span>
-      </h2>
-      <div className="container mt-5">
-        <h2>Cities</h2>
-        <div className="row">
-          {cities &&
-            cities.map((city) => (
-              <div key={city.id} className="col-md-4 mb-4">
-                <div className="card">
-                  <Image
-                    src={`/images/${city.img}.jpg`}
-                    alt={city.alt}
-                    width={400}
-                    height={300}
-                    className="card-img-top"
-                  />
-                  <div className="card-body">
-                    <h5 className="card-title">{city.name}</h5>
-                    <p className="card-text">{city.desc}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-        </div>
-      </div>
-    </>
-  )
-}
-
-/*
-import {useContext, useState} from "react"
-import useScrollPacer from "../hooks/useScrollPacer"
-import {AppContext} from "./App"
-import {cities} from "../data/cityData"
-import styled from "styled-components"
-
-const StyledTitleLine = styled.h2`
-  background-color: #333333;
-  color: #fefefe;
-  display: inline-block;
-  width: 100%;
-  padding: 0.5rem 0;
-  padding-left: 4rem;
-
-  span {
-    color: #ffff00;
-  }
-`
-
-const MapContainer = styled.div`
-  position: relative;
-  width: 100%;
-  margin: 0;
-`
-
-const MapImage = styled.img`
-  width: 100%;
-  height: auto;
-`
-
-const Grid = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: grid;
-  grid-template-columns: repeat(75, 1fr);
-  grid-template-rows: repeat(60, 1fr);
-  pointer-events: none;
-`
-
-const CityInfoPanel = styled.div`
-  position: absolute;
-  display: none;
-  top: ${(props) => props.x};
-  left: ${(props) => props.y};
-  background-color: rgba(255, 255, 0, 0.6);
-  border: 1px solid black;
-  padding: 10px;
-  z-index: 1000;
-  color: black;
-  font-size: 14px;
-  width: 10rem;
-`
-
-const CityArea = styled.div`
-  position: relative;
-  grid-column: ${(props) => props.x} / span ${(props) => props.width};
-  grid-row: ${(props) => props.y} / span ${2};
-  background-color: rgba(255, 0, 0, 0.3);
-  transition: background-color 0.3s;
-  border: 2px solid red;
-  pointer-events: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 12px;
-  color: black;
-  font-weight: bold;
-
-  &:hover {
-    ${CityInfoPanel} {
-      display: block;
-      cursor: pointer;
-    }
-
-    background-color: transparent;
-    color: transparent;
-    border: none;
-  }
-`
-
-const CityImage = styled.img`
-  width: 100%;
-  height: auto;
-`
-
-const Regions = () => {
-  const {currentCity} = useContext(AppContext)
-  const triggerScroll = useScrollPacer(1000)
-
-  const handleCityClick = (cityName) => {
-    setCurrentCity(cityName)
-    setIsRentalsAnimationApplied(true)
-    triggerScroll()
-  }
-
-  return (
-  <!== PASTE SNIPPET ONLY INTO ABOVE ==>
-    <>
-      <h2 className="bg-dark text-light d-inline-block w-100 fw-bold py-2 ps-5 fs-10">
+      <h2 className="bg-dark text-light d-inline-block w-100 fw-bold py-2 ps-5 fs-5">
         Regions Page - Selected City: <span style={{color: "#ffff00"}}>{states.city}</span>
       </h2>
       <div style={{margin: "0 5%"}}>
-        <MapContainer>
-          <MapImage src="images/worldMap.jpg" alt="Map" />
-          <Grid>
+        <div className="position-relative w-100 m-0">
+          <Image
+            className="w-100 h-auto"
+            src="/images/worldMap.jpg"
+            width={1920}
+            height={1000}
+            priority
+            sizes="100vw"
+            alt="Map"
+          />
+          <div
+            className={`${styles.mapGrid} position-absolute top-0 start-0 end-0 bottom-0 pe-none`}>
+            {console.log("Cities before render:", cities)}
             {cities.length === 0 ? (
               <p style={{color: "#333333"}}>No cities loaded</p>
             ) : (
               cities.map((city, index) => (
-                <CityArea
+                <div
+                  className={`${styles.cityArea} position-relative pe-auto d-flex justify-content-center align-items-center fs-6 text-black fw-bold`}
+                  style={{
+                    gridColumn: `${city.x} / span ${city.width}`,
+                    gridRow: `${city.y} / span 2`,
+                  }}
                   key={index}
                   x={city.x}
                   y={city.y}
@@ -183,19 +73,25 @@ const Regions = () => {
                   height={city.height}
                   onClick={() => handleCityClick(city.name)}>
                   {city.name}
-                  <CityInfoPanel>
-                    <CityImage src={`images/${city.img}.jpg`} alt={city.alt} />
+                  <div
+                    className={`${styles.cityInfoPanel} position-absolute d-none text-black`}
+                    style={{top: `${city.x}`, left: `${city.y}`}}>
+                    <Image
+                      className="w-100 h-auto"
+                      src={`/images/${city.img}.jpg`}
+                      width={300}
+                      height={200}
+                      sizes="(max-width: 768px) 100vw, 300px"
+                      alt={city.alt}
+                    />
                     {city.desc}
-                  </CityInfoPanel>
-                </CityArea>
+                  </div>
+                </div>
               ))
             )}
-          </Grid>
-        </MapContainer>
+          </div>
+        </div>
       </div>
     </>
   )
 }
-
-export default Regions
-*/

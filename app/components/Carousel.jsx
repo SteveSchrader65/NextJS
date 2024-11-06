@@ -16,7 +16,8 @@ const Carousel = () => {
 
   useEffect(() => {
     if (cityData && !cityLoading) {
-      // Select 5 random cities from the fetched data
+
+      // Select 5 random cities to display in Carousel component
       const shuffled = [...cityData]
         .sort(() => 0.5 - Math.random())
         .slice(0, 5)

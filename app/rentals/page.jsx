@@ -1,18 +1,19 @@
 "use client"
 
-import {useEffect} from "react"
 import {useFirebaseData} from "../hooks/useFirebase"
-import Image from "next/image"
 import {useStates} from "../hooks/useStates"
+import Image from "next/image"
 import styles from "./rentals.module.css"
 
 export default function Rentals() {
+  const {states, _} = useStates()
   const {
     data: properties,
     loading: propertiesLoading,
     error: propertiesError,
   } = useFirebaseData("propertyData")
 
+  // Create loading and error pages using these ...
   if (propertiesLoading) {
     return <div className="container mt-5">Loading properties from database ...</div>
   }
@@ -27,32 +28,66 @@ export default function Rentals() {
     )
   }
 
-  // useEffect(() => {
-  //   const city = cities.find((city) => city.name === currentCity)
-
-  //   if (city) {
-  //     setCurrentCode(city.prefix)
-  //     loadProperties(city.prefix)
-  //       .then((loadedProperties) => {
-  //         setProperties(loadedProperties)
-  //       })
-  //       .catch((error) => {
-  //         console.error("Error loading properties:", error)
-  //       })
-  //   }
-  // }, [])
-
-  /*{styles.titleLine}*/
-  /* ("bg-dark text-light d-inline-block w-100 fw-bold py-2 ps-5 fs-10") */
-  // <h2 className="bg-dark text-light d-inline-block w-100 fw-bold py-2 ps-5 fs-10">
-  //   Contact Page
-  // </h2>
-
+  if (!properties) {
+    return <div className="container mt-5">No city data available</div>
+  }
 
   return (
     <>
-      <div className="container mt-5">
-        <h2 className="mt-5">Properties</h2>
+      <h2 className="bg-dark text-light d-inline-block w-100 fw-bold py-2 ps-5 fs-5">
+        Rentals Page - Listings for:
+        <span style={{color: "#ffff00"}}>{states.city}</span>
+      </h2>
+
+      {/* const StyledCard = styled.div`
+  width: 80%;
+  border: 2px solid #000000;
+  padding: 1%;
+  display: flex;
+  margin-bottom: 20px;
+`
+
+const StyledImage = styled.img`
+  width: 60%;
+  height: auto;
+  border: 1px solid red;
+  margin-right: 20px;
+`
+
+const StyledContent = styled.div`
+  flex: 1;
+
+  p:first-of-type {
+    font-weight: bold;
+    font-size: 1.4rem;
+  }
+
+  p:nth-of-type(4) {
+    text-align: justify;
+    text-justify: inter-word;
+  }
+` */}
+
+      <div style={{margin: "0 5%"}}>
+        {/* properties.map((property, index) => (
+          <StyledCard key={index}>
+            <StyledImage src={property.src} alt={property.alt} />
+            <StyledContent>
+              <p>Price: {property.price}</p>
+              <p>
+                {property.beds}&ensp;Beds&emsp;-&emsp;{property.baths}&ensp;Baths&emsp;-&emsp;
+                {property.garages}&ensp;Garages
+              </p>
+              <p>
+                <strong>Locality:</strong>&ensp;{property.locality}&emsp;{property.sqm}
+              </p>
+              <p>
+                <strong>Description:</strong>&ensp;{property.desc}
+              </p>
+            </StyledContent>
+          </StyledCard>
+          )) */}
+
         <div className="row">
           {properties &&
             properties.map((property) => (
@@ -82,127 +117,3 @@ export default function Rentals() {
     </>
   )
 }
-
-/*
-import {useState, useEffect, useContext} from "react"
-import {AppContext} from "../App"
-import {cities} from "../data/cityData"
-import {properties as propertyData} from "../data/propertyData"
-import styled from "styled-components"
-
-const StyledTitleLine = styled.h2`
-  background-color: #333333;
-  color: #fefefe;
-  display: inline-block;
-  width: 100%;
-  padding: 0.5rem 0;
-  padding-left: 4rem;
-
-  span {
-    color: #ffff00;
-  }
-`
-
-const StyledCard = styled.div`
-  width: 80%;
-  border: 2px solid #000000;
-  padding: 1%;
-  display: flex;
-  margin-bottom: 20px;
-`
-
-const StyledImage = styled.img`
-  width: 60%;
-  height: auto;
-  border: 1px solid red;
-  margin-right: 20px;
-`
-
-const StyledContent = styled.div`
-  flex: 1;
-
-  p:first-of-type {
-    font-weight: bold;
-    font-size: 1.4rem;
-  }
-
-  p:nth-of-type(4) {
-    text-align: justify;
-    text-justify: inter-word;
-  }
-`
-
-const Rentals = () => {
-  const {currentCity} = useContext(AppContext)
-  const [_, setCurrentCode] = useState("")
-  const [properties, setProperties] = useState([])
-
-  const loadProperties = (prefix) => {
-    return new Promise((resolve) => {
-      const filteredProperties = propertyData.filter((prop) => prop.img.startsWith(prefix))
-      const loadedProperties = filteredProperties.map((prop) => ({
-        src: `images/${prop.img}.jpg`,
-        alt: `${prop.locality} property`,
-        price: `${prop.price}`,
-        beds: `${prop.beds}`,
-        baths: `${prop.baths}`,
-        garages: `${prop.garages}`,
-        sqm: `${prop.sqm}`,
-        locality: `${prop.locality}`,
-        desc: `${prop.desc}`,
-      }))
-
-      resolve(loadedProperties)
-    })
-  }
-
-  useEffect(() => {
-    const city = cities.find((city) => city.name === currentCity)
-
-    if (city) {
-      setCurrentCode(city.prefix)
-      loadProperties(city.prefix)
-        .then((loadedProperties) => {
-          setProperties(loadedProperties)
-        })
-        .catch((error) => {
-          console.error("Error loading properties:", error)
-        })
-    }
-  }, [])
-
-  return (
-    <>
-      <StyledTitleLine>
-        Rentals Page - Listings for: <span>{currentCity}</span>
-      </StyledTitleLine>
-      <div style={{margin: "0 5%"}}>
-        {properties.length === 0 ? (
-          <p style={{color: "#333333"}}>No properties loaded</p>
-        ) : (
-          properties.map((property, index) => (
-            <StyledCard key={index}>
-              <StyledImage src={property.src} alt={property.alt} />
-              <StyledContent>
-                <p>Price: {property.price}</p>
-                <p>
-                  {property.beds}&ensp;Beds&emsp;-&emsp;{property.baths}&ensp;Baths&emsp;-&emsp;
-                  {property.garages}&ensp;Garages
-                </p>
-                <p>
-                  <strong>Locality:</strong>&ensp;{property.locality}&emsp;{property.sqm}
-                </p>
-                <p>
-                  <strong>Description:</strong>&ensp;{property.desc}
-                </p>
-              </StyledContent>
-            </StyledCard>
-          ))
-        )}
-      </div>
-    </>
-  )
-}
-
-export default Rentals
-*/

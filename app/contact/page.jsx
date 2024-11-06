@@ -50,7 +50,7 @@ export default function Contact() {
 
   return (
     <>
-      <h2 className="bg-dark text-light d-inline-block w-100 fw-bold py-2 ps-5 fs-10">
+      <h2 className="bg-dark text-light d-inline-block w-100 fw-bold py-2 ps-5 fs-5">
         Contact Page
       </h2>
       <div className="mt-4">

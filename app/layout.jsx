@@ -1,4 +1,5 @@
 // FIREBASE: https://console.firebase.google.com/project/oneringrentals/firestore/databases/-default-/data/~2FpropertyData~2F0f8SvY9IIcpVQRRVvZCo
+
 import { StatesProvider } from "./hooks/useStates"
 import {Inter} from "next/font/google"
 import Header from "./components/Header"
