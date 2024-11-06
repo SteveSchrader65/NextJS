@@ -10,18 +10,15 @@ export const useFirebaseData = (collectionName) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log("Fetching data from Firebase...") // Debug log
         const querySnapshot = await getDocs(collection(db, collectionName))
         const documents = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }))
-        console.log("Data received:", documents) // Debug log
         setData(documents)
         setLoading(false)
       } catch (error) {
-        console.error("Firebase Error:", error) // Changed to console.error
-        setError(error.message || "Error fetching data") // Store the message only
+        setError(error.message || "Error fetching data")
         setLoading(false)
       }
     }

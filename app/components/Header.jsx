@@ -10,6 +10,11 @@ import styles from "./styles/header.module.css"
 const Header = () => {
   const {states, updateStates} = useStates()
 
+  const stopAnimation = () => {
+    updateStates("homeAnimated", false)
+    updateStates("rentalsAnimated", false)
+  }
+
   const dropdownItems = [
     {label: "English", href: "#"},
     {label: "Deutsch", href: "#"},
@@ -57,7 +62,12 @@ const Header = () => {
           <IconChar icon={ICONS.REGISTER} style={{marginRight: "5px"}} />
           Register
         </Link>
-        <div className="border-start border-black border-1 mx-3" style={{height: "1.5rem"}}></div>
+        <div
+          className="border-start border-black border-1 mx-3"
+          style={{height: "1.5rem"}}
+          role="separator"
+          aria-orientation="vertical">
+        </div>
         <IconChar icon={ICONS.GLOBE} style={{marginLeft: "25px", marginRight: "5px"}} />
         <div className="position-relative d-inline-block me-5" style={{marginRight: "8rem"}}>
           <DropdownMenu
@@ -71,8 +81,10 @@ const Header = () => {
         <Link
           className="text-decoration-none"
           style={{color: "#888888", margin: "1% 0 0 9%"}}
-          href="/">
+          href="/"
+          onClick={stopAnimation}>
           <Image
+            className={states.homeAnimated ? styles.flashLink : ""}
             style={{height: "5.5rem"}}
             src="/images/logo.png"
             alt="One Ring logo"
@@ -82,21 +94,24 @@ const Header = () => {
           />
         </Link>
         <Link
-          className={`${styles.navLink} text-decoration-none`}
+          className={`${styles.navLink} text-decoration-none ${states.rentalsAnimated ? styles.flashLink : ""}`}
           style={{color: "#888888", margin: "1% 0 0 9%"}}
-          href="/rentals">
+          href="/rentals"
+          onClick={stopAnimation}>
           FIND A RENTAL
         </Link>
         <Link
           className={`${styles.navLink} text-decoration-none`}
           style={{color: "#888888", margin: "1% 0 0 9%"}}
-          href="/regions">
+          href="/regions"
+          onClick={stopAnimation}>
           REGIONS
         </Link>
         <Link
           className={`${styles.navLink} text-decoration-none`}
           style={{color: "#888888", margin: "1% 0 0 9%"}}
-          href="/contact">
+          href="/contact"
+          onClick={stopAnimation}>
           CONTACT
         </Link>
         <div className="position-relative d-inline-block ms-auto me-4 px-3">

@@ -13,14 +13,14 @@ const _initialStates = {
 }
 
 export function StatesProvider({ children }) {
-    const [ states, setStates ] = useState(_initialStates)
+  const [ states, setStates ] = useState(_initialStates)
 
-    // Update any state value by updating all current values
-    // with passed key/value pair overwriting any previous value
-    const updateStates = (key, value) => {
-      setStates(prevStates => ({
-        ...prevStates,
-        [key]: value
+  // Update any state value by updating all current values
+  // with passed key/value pair overwriting any previous value
+  const updateStates = (key, value) => {
+    setStates(prevStates => ({
+      ...prevStates,
+      [key]: value
     }))
   }
 

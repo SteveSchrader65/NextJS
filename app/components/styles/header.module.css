@@ -1,3 +1,12 @@
+.flashLink {
+  animation: flashLinkAnimation 1s ease-in-out infinite;
+}
+@keyframes flashLinkAnimation {
+  0% { transform: scale(1.0); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1.0); }
+}
+
 .navLink:hover {
   color: #333333;
   font-weight: bold;

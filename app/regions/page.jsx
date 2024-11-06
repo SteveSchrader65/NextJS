@@ -1,5 +1,9 @@
 "use client"
 
+// CHECKLIST:
+// Enable loading and error pages for Regions and Rentals
+// Re-activate de-structuring error for dev tools and JS before/after screenshots
+// Fix bug with scrolling speed on Regions page
 import {useFirebaseData} from "../hooks/useFirebase"
 import useScrollPacer from "../hooks/useScrollPacer"
 import {useStates} from "../hooks/useStates"
