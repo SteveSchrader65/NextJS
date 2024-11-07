@@ -3,6 +3,7 @@
 import {useState, useEffect, useCallback} from "react"
 import Image from "next/image"
 import {useFirebaseData} from "../hooks/useFirebase"
+import Loading from "../regions/loading"
 import styles from "./styles/carousel.module.css"
 
 const Carousel = () => {
@@ -13,13 +14,17 @@ const Carousel = () => {
   const [slides, setSlides] = useState([])
 
   // Fetch city data from database
-  const {data: cityData, loading: cityLoading} = useFirebaseData("cityData")
+  const {data: citiesData, loading: citiesLoading} = useFirebaseData("cityData")
+
+  if (citiesLoading) {
+    Loading()
+  }
 
   useEffect(() => {
-    if (cityData && !cityLoading) {
+    if (citiesData && !citiesLoading) {
 
       // Select 5 random cities to display in Carousel component
-      const shuffled = [...cityData]
+      const shuffled = [...citiesData]
         .sort(() => 0.5 - Math.random())
         .slice(0, 5)
         .map((city) => ({
@@ -30,7 +35,7 @@ const Carousel = () => {
       setSlides(shuffled)
       setMounted(true)
     }
-  }, [cityData, cityLoading])
+  }, [citiesData, citiesLoading])
 
   const moveSlide = useCallback(() => {
     setCurrentSlide((prevSlide) => {
@@ -98,7 +103,7 @@ const Carousel = () => {
     return <i className={`${icon}`}></i>
   }
 
-  if (!mounted || cityLoading) return null
+  if (!mounted || citiesLoading) return null
 
   return slides.length > 0 ? (
     <div className="bg-dark w-100 position-relative py-4">
