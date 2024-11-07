@@ -1,13 +1,16 @@
 "use client"
 
 // CHECKLIST:
-// Enable loading and error pages for Regions and Rentals
 // Re-activate de-structuring error for dev tools and JS before/after screenshots
 // Fix bug with scrolling speed on Regions page
+// Fix bug with hover effect on Carousel navigation buttons
+// Stylize scroll-bars
 import {useFirebaseData} from "../hooks/useFirebase"
 import useScrollPacer from "../hooks/useScrollPacer"
 import {useStates} from "../hooks/useStates"
 import Image from "next/image"
+import Loading from "../regions/loading"
+import Error from "../regions/error"
 import styles from "./regions.module.css"
 
 export default function Regions() {
@@ -15,26 +18,13 @@ export default function Regions() {
   const {data: cities, loading: citiesLoading, error: citiesError} = useFirebaseData("cityData")
   const triggerScroll = useScrollPacer(1000)
 
-  // Create loading and error pages using these ...
   if (citiesLoading) {
-    return (
-      <div className="container m-5">
-        <div className="alert alert-primary">
-          <p> Loading cities from database ...</p>
-        </div>
-      </div>
-    )
+    Loading()
   }
 
   if (citiesError) {
     const errorMessage = citiesError?.message || "Database error occurred"
-    return (
-      <div className="container m-5">
-        <div className="alert alert-danger">
-          <p>Cities Error: {errorMessage}</p>
-        </div>
-      </div>
-    )
+    Error(errorMessage)
   }
 
   if (!cities) {

@@ -1,4 +1,5 @@
 .flashLink {
+  font-weight: bold;
   animation: flashLinkAnimation 1s ease-in-out infinite;
 }
 @keyframes flashLinkAnimation {

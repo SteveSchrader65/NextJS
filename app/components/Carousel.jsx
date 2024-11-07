@@ -3,20 +3,20 @@
 import {useState, useEffect, useCallback} from "react"
 import Image from "next/image"
 import {useFirebaseData} from "../hooks/useFirebase"
+// Add styles module to allow hover effect on navigation buttons
 
 const Carousel = () => {
-  const [mounted, setMounted] = useState(false)
-  const [slides, setSlides] = useState([])
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isReversed, setIsReversed] = useState(false)
   const [isPaused, setIsPaused] = useState(false)
+  const [mounted, setMounted] = useState(false)
+  const [slides, setSlides] = useState([])
 
   // Fetch city data from database
   const {data: cityData, loading: cityLoading} = useFirebaseData("cityData")
 
   useEffect(() => {
     if (cityData && !cityLoading) {
-
       // Select 5 random cities to display in Carousel component
       const shuffled = [...cityData]
         .sort(() => 0.5 - Math.random())
@@ -82,10 +82,19 @@ const Carousel = () => {
   if (!mounted || cityLoading) return null
 
   return slides.length > 0 ? (
-    <div className="bg-dark w-100 position-relative py-4" style={{backgroundColor: "#333333"}}>
+    <div className="bg-dark w-100 position-relative py-4">
       <button
         className="position-absolute top-50 border-0 bg-dark text-white-50"
-        style={{left: "6%", backgroundColor: "#333333", color: "rgba(255, 255, 255, 0.8)", transform: "translateY(-50%)", fontSize: "2.5rem", cursor: "pointer", zIndex: "100", padding: "1%"}}
+        style={{
+          left: "6%",
+          backgroundColor: "#333333",
+          color: "rgba(255, 255, 255, 0.8)",
+          transform: "translateY(-50%)",
+          fontSize: "2.5rem",
+          cursor: "pointer",
+          zIndex: "100",
+          padding: "1%",
+        }}
         onClick={previousSlide}>
         <IconChar icon={ICONS.LEFTCONTROL} />
       </button>
@@ -137,7 +146,16 @@ const Carousel = () => {
       </div>
       <button
         className="position-absolute top-50 border-0 bg-dark text-white-50"
-        style={{right: "6%", backgroundColor: "#333333", color: "rgba(255, 255, 255, 0.8)", transform: "translateY(-50%)", fontSize: "2.5rem", cursor: "pointer", zIndex: "100", padding: "1%"}}
+        style={{
+          right: "6%",
+          backgroundColor: "#333333",
+          color: "rgba(255, 255, 255, 0.8)",
+          transform: "translateY(-50%)",
+          fontSize: "2.5rem",
+          cursor: "pointer",
+          zIndex: "100",
+          padding: "1%",
+        }}
         onClick={nextSlide}>
         <IconChar icon={ICONS.RIGHTCONTROL} />
       </button>

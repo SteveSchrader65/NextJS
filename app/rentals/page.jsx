@@ -3,6 +3,8 @@
 import {useFirebaseData} from "../hooks/useFirebase"
 import {useStates} from "../hooks/useStates"
 import Image from "next/image"
+import Loading from "../rentals/loading"
+import Error from "../rentals/error"
 
 export default function Rentals() {
   const {states} = useStates()
@@ -12,25 +14,13 @@ export default function Rentals() {
     error: propertiesError,
   } = useFirebaseData("propertyData")
 
-  // Create loading and error pages using these ...
   if (propertiesLoading) {
-    return (
-      <div className="container m-5">
-        <div className="alert alert-primary">
-          <p>Loading properties from database ...</p>
-        </div>
-      </div>
-    )
+    Loading()
   }
 
   if (propertiesError) {
-    return (
-      <div className="container m-5">
-        <div className="alert alert-danger">
-          {propertiesError && <p>Properties Error: {propertiesError.message}</p>}
-        </div>
-      </div>
-    )
+    const errorMessage = propertiesError?.message || "Database error occurred"
+    Error(errorMessage)
   }
 
   if (!properties) {
