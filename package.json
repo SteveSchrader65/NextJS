@@ -23,5 +23,11 @@
   },
   "engines": {
     "node": ">=20.15.1"
+  },
+  "description": "NextJS recreation of the One Ring Rentals web-site",
+  "author": "Stephen Schrader",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SteveSchrader65/OneRingRentals.git"
   }
 }
