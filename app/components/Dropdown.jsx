@@ -58,9 +58,9 @@ const DropdownMenu = ({items = [], language = "English", onItemSelect = () => {}
           style={{fontSize: "0.8rem", transition: "transform 0.3s ease"}}></i>
       </button>
       <div
-        className={`dropdown-menu dropdown-menu-end w-100 rounded-0 bg-light fs-6 ${styles.dropdownContent} ${
-          isOpen ? styles.open : ""
-        }`}
+        className={`dropdown-menu dropdown-menu-end w-100 rounded-0 bg-light fs-6 ${
+          styles.dropdownContent
+        } ${isOpen ? styles.open : ""}`}
         role="menu"
         aria-label="Language selection menu"
         style={{
@@ -73,7 +73,7 @@ const DropdownMenu = ({items = [], language = "English", onItemSelect = () => {}
           .filter((item) => item.label !== language)
           .map((item, index) => (
             <button
-              className="dropdown-item text-secondary text-decoration-none"
+              className={`dropdown-item text-secondary text-decoration-none ${styles.dropdownItem}`}
               key={index}
               role="menuitem"
               onClick={(e) => {
@@ -84,7 +84,6 @@ const DropdownMenu = ({items = [], language = "English", onItemSelect = () => {}
                 padding: "0.6rem 1rem",
                 transition: "all 0.3s ease",
                 border: "none",
-                background: "none",
                 width: "100%",
               }}>
               {item.label}

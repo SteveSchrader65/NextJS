@@ -4,6 +4,14 @@
   transition: transform 0.3s ease-out;
 }
 
+.dropdownItem {
+  background: none;
+}
+
+.dropdownItem:hover {
+  background-color: #ccc !important;
+}
+
 .open {
   animation: menuBounce 0.4s ease-in-out forwards;
 }
