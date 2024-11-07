@@ -3,7 +3,7 @@
 import {useState, useEffect, useCallback} from "react"
 import Image from "next/image"
 import {useFirebaseData} from "../hooks/useFirebase"
-// Add styles module to allow hover effect on navigation buttons
+import styles from "./styles/carousel.module.css"
 
 const Carousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0)
@@ -17,6 +17,7 @@ const Carousel = () => {
 
   useEffect(() => {
     if (cityData && !cityLoading) {
+
       // Select 5 random cities to display in Carousel component
       const shuffled = [...cityData]
         .sort(() => 0.5 - Math.random())
@@ -84,11 +85,9 @@ const Carousel = () => {
   return slides.length > 0 ? (
     <div className="bg-dark w-100 position-relative py-4">
       <button
-        className="position-absolute top-50 border-0 bg-dark text-white-50"
+        className={`${styles.control} position-absolute top-50 border-0 bg-dark text-white-50`}
         style={{
           left: "6%",
-          backgroundColor: "#333333",
-          color: "rgba(255, 255, 255, 0.8)",
           transform: "translateY(-50%)",
           fontSize: "2.5rem",
           cursor: "pointer",
@@ -145,11 +144,9 @@ const Carousel = () => {
         </div>
       </div>
       <button
-        className="position-absolute top-50 border-0 bg-dark text-white-50"
+        className={`${styles.control} position-absolute top-50 border-0 bg-dark text-white-50`}
         style={{
           right: "6%",
-          backgroundColor: "#333333",
-          color: "rgba(255, 255, 255, 0.8)",
           transform: "translateY(-50%)",
           fontSize: "2.5rem",
           cursor: "pointer",

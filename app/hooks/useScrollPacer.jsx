@@ -1,31 +1,44 @@
-import {useState, useEffect, useCallback} from "react";
-import {animateScroll as scroll} from "react-scroll";
-
-// This custom hook allows setting of 'speed' by calculating
+// This custom hook modifies scrolling speed by calculating
 // and modifying the required duration to perform the scroll
+// This variation begins fast and then slows down as the distance
+// to the top of screen is close.
+import {useCallback} from "react"
+
 const useScrollPacer = (duration = 1000) => {
-  const [_, setScrollDistance] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollDistance(window.scrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   const triggerScroll = useCallback(() => {
-    scroll.scrollToTop({
-      duration: duration,
-      smooth: true,
-      easing: (t) => {
-        return 1 - Math.pow(1 - t, 3);
-      },
-    });
-  }, [duration]);
+    const startPosition = window.scrollY
+    const startTime = performance.now()
+    let lastPosition = startPosition
 
-  return triggerScroll;
-};
+    const animate = (currentTime) => {
+      const elapsed = currentTime - startTime
+      const progress = Math.min(elapsed / duration, 1)
 
-export default useScrollPacer;
+      // Calculate speed factor based on remaining distance
+      const remainingDistance = lastPosition
+      const speedFactor =
+        remainingDistance > window.innerHeight
+          ? 0.25
+          : remainingDistance > window.innerHeight * 0.3
+          ? 0.15
+          : 0.08
+
+      // Calculate next position
+      const movement = remainingDistance * speedFactor
+      const nextPosition = Math.max(0, lastPosition - movement)
+
+      window.scrollTo(0, nextPosition)
+      lastPosition = nextPosition
+
+      if (nextPosition > 0 && progress < 1) {
+        requestAnimationFrame(animate)
+      }
+    }
+
+    requestAnimationFrame(animate)
+  }, [duration])
+
+  return triggerScroll
+}
+
+export default useScrollPacer

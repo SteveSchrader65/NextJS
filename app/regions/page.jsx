@@ -1,10 +1,5 @@
 "use client"
 
-// CHECKLIST:
-// Re-activate de-structuring error for dev tools and JS before/after screenshots
-// Fix bug with scrolling speed on Regions page
-// Fix bug with hover effect on Carousel navigation buttons
-// Stylize scroll-bars
 import {useFirebaseData} from "../hooks/useFirebase"
 import useScrollPacer from "../hooks/useScrollPacer"
 import {useStates} from "../hooks/useStates"
@@ -14,8 +9,8 @@ import Error from "../regions/error"
 import styles from "./regions.module.css"
 
 export default function Regions() {
-  const {states, updateStates} = useStates()
   const {data: cities, loading: citiesLoading, error: citiesError} = useFirebaseData("cityData")
+  const {states, updateStates} = useStates()
   const triggerScroll = useScrollPacer(1000)
 
   if (citiesLoading) {
@@ -28,7 +23,13 @@ export default function Regions() {
   }
 
   if (!cities) {
-    return <div className="container mt-5">No city data available</div>
+    return (
+      <div className="container mt-5">
+        <div className="alert alert-warning">
+          <p>No city data available</p>
+        </div>
+      </div>
+    )
   }
 
   const handleCityClick = (city) => {
