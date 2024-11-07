@@ -45,16 +45,12 @@ const DropdownMenu = ({items = [], language = "English", onItemSelect = () => {}
       onMouseLeave={handleMouseLeave}
       style={{minWidth: "125px"}}>
       <button
-        className="btn btn-link text-secondary d-flex align-items-center justify-content-between w-100"
+        className="btn btn-link text-secondary d-flex px-3 text-decoration-none border-0 align-items-center justify-content-between w-100"
         onClick={handleToggle}
         aria-haspopup="true"
         aria-expanded={isOpen}
         style={{
           fontSize: "0.8rem",
-          padding: "0 12px",
-          textDecoration: "none",
-          border: "none",
-          outline: "none",
         }}>
         {language}
         <i
@@ -71,7 +67,7 @@ const DropdownMenu = ({items = [], language = "English", onItemSelect = () => {}
           minWidth: "125px",
           backgroundColor: "#f3f3f3",
           boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
-          display: isOpen ? "block" : "none", // Add this line
+          display: isOpen ? "block" : "none",
         }}>
         {items
           .filter((item) => item.label !== language)
@@ -87,11 +83,9 @@ const DropdownMenu = ({items = [], language = "English", onItemSelect = () => {}
               style={{
                 padding: "0.6rem 1rem",
                 transition: "all 0.3s ease",
-                textDecoration: "none",
                 border: "none",
                 background: "none",
                 width: "100%",
-                textAlign: "left",
               }}>
               {item.label}
             </button>

@@ -12,6 +12,7 @@ const SearchFeature = () => {
   const toggleExpand = (e) => {
     e.preventDefault()
     setExpanded((prev) => !prev)
+
     if (!expanded) {
       setSearchTerm("")
       setTimeout(() => {
@@ -57,6 +58,7 @@ const SearchFeature = () => {
           placeholder="Search ..."
           onChange={handleInput}
           disabled={!expanded}
+          aria-label="Search site content"
         />
         <button
           type="button"

@@ -11,6 +11,10 @@ export const useFirebaseData = (collectionName) => {
     const fetchData = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, collectionName))
+        if (!querySnapshot) {
+          throw new Error("No data returned from Firebase")
+        }
+
         const documents = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
@@ -18,7 +22,7 @@ export const useFirebaseData = (collectionName) => {
         setData(documents)
         setLoading(false)
       } catch (error) {
-        setError(error.message || "Error fetching data")
+        setError(`Error fetching ${collectionName}: ${error.message}`)
         setLoading(false)
       }
     }

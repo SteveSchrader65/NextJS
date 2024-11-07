@@ -71,6 +71,24 @@ const Carousel = () => {
     setCurrentSlide(index)
   }
 
+  const handleKeyDown = (e) => {
+    switch (e.key) {
+      case "ArrowLeft":
+        e.preventDefault()
+        previousSlide()
+        break
+      case "ArrowRight":
+        e.preventDefault()
+        nextSlide()
+        break
+      case "Enter":
+      case " ":
+        e.preventDefault()
+        setIsPaused((prev) => !prev)
+        break
+    }
+  }
+
   const ICONS = {
     LEFTCONTROL: "fa-solid fa-chevron-left",
     RIGHTCONTROL: "fa-solid fa-chevron-right",
@@ -94,7 +112,9 @@ const Carousel = () => {
           zIndex: "100",
           padding: "1%",
         }}
-        onClick={previousSlide}>
+        onClick={previousSlide}
+        onKeyDown={handleKeyDown}
+        aria-label="Previous Slide">
         <IconChar icon={ICONS.LEFTCONTROL} />
       </button>
       <div className="container-fluid position-relative py-4" style={{maxWidth: "1000px"}}>
@@ -117,6 +137,8 @@ const Carousel = () => {
                   width={200}
                   height={150}
                   priority={index === 0}
+                  loading={index === 0 ? "eager" : "lazy"}
+                  sizes="(max-width: 768px) 100vw, 1000px"
                   onError={(e) => {
                     console.log(`Error loading image: ${slide.img}`)
                   }}
@@ -129,13 +151,12 @@ const Carousel = () => {
           {slides.map((_, index) => (
             <button
               key={index}
-              className={`rounded-circle border-0 ${
-                index === currentSlide ? "bg-dark" : "bg-secondary"
+              className={`rounded-circle cursor-pointer border-0 ${
+                index === currentSlide ? "bg-light" : "bg-secondary"
               }`}
               style={{
                 width: "15px",
                 height: "15px",
-                cursor: "pointer",
                 transition: "background-color 0.3s",
               }}
               onClick={() => jumpToSlide(index)}
@@ -153,7 +174,9 @@ const Carousel = () => {
           zIndex: "100",
           padding: "1%",
         }}
-        onClick={nextSlide}>
+        onClick={nextSlide}
+        onKeyDown={handleKeyDown}
+        aria-label="Next Slide">
         <IconChar icon={ICONS.RIGHTCONTROL} />
       </button>
     </div>

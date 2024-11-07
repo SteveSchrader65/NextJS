@@ -1,5 +1,5 @@
 // This custom hook modifies scrolling speed by calculating
-// and modifying the required duration to perform the scroll
+// and modifying the easing function to perform the scroll.
 // This variation begins fast and then slows down as the distance
 // to the top of screen is close.
 import {useCallback} from "react"

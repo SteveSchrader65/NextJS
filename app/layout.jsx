@@ -29,9 +29,14 @@ export default function RootLayout({children}) {
         />
       </head>
       <body className={inter.className}>
+        <a href="#main-content" className="skip-to-main">
+          Skip to main content
+        </a>
         <StatesProvider>
           <Header />
-          <main>{children}</main>
+          <main id="main-content" tabIndex="-1">
+            {children}
+          </main>
           <Footer />
         </StatesProvider>
       </body>
